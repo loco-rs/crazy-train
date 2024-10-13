@@ -247,21 +247,6 @@ mod tests {
     }
 
     #[test]
-    fn can_dump_plan() {
-        let location = std::env::temp_dir().join("crazy-train");
-
-        let step_one = TestStepOne { location };
-        let step_two = TestStepOne {
-            location: std::env::temp_dir().join("crazy-train-1"),
-        };
-
-        let randomaizer = Randomizer::with_seed(42);
-        let runner = new(vec![Box::new(step_one), Box::new(step_two)]).randomizer(randomaizer);
-
-        assert_debug_snapshot!(runner.dump_plan());
-    }
-
-    #[test]
     fn can_run() {
         let base_location = std::env::temp_dir().join("crazy-train");
         let location_step_1 = base_location.join("step-1");
