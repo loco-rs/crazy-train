@@ -23,6 +23,7 @@
 //! crazy-train = "0.1.0"  // Replace with the latest version
 //! ```
 //!
+
 mod errors;
 pub mod executer;
 mod generator;
