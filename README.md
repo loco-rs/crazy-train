@@ -15,7 +15,7 @@ To add **Crazy Train** to your project, include it in your `Cargo.toml`:
 
 ```toml
 [dependencies]
-crazy-train = "0.1.0"  # Replace with the latest version
+crazy-train = "*"
 ```
 
 ## Usage

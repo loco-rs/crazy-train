@@ -20,7 +20,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! crazy-train = "0.1.0"  // Replace with the latest version
+//! crazy-train = "*"
 //! ```
 //!
 
