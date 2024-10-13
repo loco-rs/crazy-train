@@ -1,7 +1,7 @@
 //! # Crazy Train
 //!
 //! **Crazy Train** is a Rust library designed for randomized and fuzz execution of command-line
-//! interfaces (CLIs). It helps discover unforeseen sequences of steps and parameters that can lead
+//! interfaces. It helps discover unforeseen sequences of steps and parameters that can lead
 //! to unexpected errors. This library facilitates reproducible test plan runs, ensuring that the
 //! command-line interface behaves as expected under various scenarios.
 //!
