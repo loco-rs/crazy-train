@@ -87,7 +87,7 @@ impl Randomizer {
     /// assert_eq!(randomizer.string(string_def.clone()).include_symbol(true).to_string(), "=wqf`g");
     /// assert_eq!(randomizer.string(string_def.clone()).length(10).to_string(), "wgavmyyuzw");
     /// ```
-    pub fn string(&self, def: StringDef) -> StringDefBuilder {
+    pub fn string(&self, def: StringDef) -> StringDefBuilder<'_> {
         StringDefBuilder {
             string_def: def,
             rng: &self.rng,
