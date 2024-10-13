@@ -1,0 +1,7 @@
+---
+source: src/runner.rs
+expression: runner.dump_plan()
+---
+Ok(
+    "====================================\n\u{1b}[32m          Execution Plan Dump        \u{1b}[0m\n====================================\n\u{1b}[1mStep Count\u{1b}[0m: 2\n\u{1b}[1mSeed\u{1b}[0m: 42\n------------------------------------\n\u{1b}[32mStep 1: crazy_train::runner::tests::TestStepOne\u{1b}[0m\n------------------------------------\n\u{1b}[1mCommand:\u{1b}[0m\necho noqkak >> /var/folders/wc/t5blxghs1b5d75ygrgzcsb3w0000gn/T/crazy-train/test.txt\n\u{1b}[1mState:\u{1b}[0m\n---\nlocation: /var/folders/wc/t5blxghs1b5d75ygrgzcsb3w0000gn/T/crazy-train\n\n------------------------------------\n\u{1b}[32mStep 2: crazy_train::runner::tests::TestStepOne\u{1b}[0m\n------------------------------------\n\u{1b}[1mCommand:\u{1b}[0m\necho twdayn >> /var/folders/wc/t5blxghs1b5d75ygrgzcsb3w0000gn/T/crazy-train-1/test.txt\n\u{1b}[1mState:\u{1b}[0m\n---\nlocation: /var/folders/wc/t5blxghs1b5d75ygrgzcsb3w0000gn/T/crazy-train-1\n\n------------------------------------",
+)
