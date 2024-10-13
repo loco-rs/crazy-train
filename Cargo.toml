@@ -7,7 +7,7 @@ homepage = "https://docs.rs/crazy-train"
 documentation = "https://docs.rs/crazy-train"
 authors = ["Elad Kaplan <kaplan.elad@gmail.com>", "Dotan Nahum <dotan@rng0.io>"]
 repository = "https://github.com/loco-rs/crazy-train"
-
+license = "Apache-2.0"
 
 [lib]
 path = "src/lib.rs"
