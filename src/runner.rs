@@ -156,7 +156,6 @@ impl Runner {
 #[cfg(test)]
 mod tests {
 
-    use insta::assert_debug_snapshot;
     use std::path::PathBuf;
 
     use serde::{Deserialize, Serialize};
