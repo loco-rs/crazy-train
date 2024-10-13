@@ -88,7 +88,7 @@ impl StringDefBuilder<'_> {
 
 impl std::fmt::Display for StringDefBuilder<'_> {
     /// Displays the generated string based on the current configuration of the builder.
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let mut rng = self.rng.borrow_mut();
         let result = self.string_def.generate(&mut *rng);
         write!(f, "{result}")

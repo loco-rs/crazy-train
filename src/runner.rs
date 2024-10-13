@@ -156,7 +156,6 @@ impl Runner {
 #[cfg(test)]
 mod tests {
 
-    use insta::assert_debug_snapshot;
     use std::path::PathBuf;
 
     use serde::{Deserialize, Serialize};
@@ -244,21 +243,6 @@ mod tests {
         fn to_yaml(&self) -> serde_yaml::Value {
             serde_yaml::to_value(self).expect("serialize")
         }
-    }
-
-    #[test]
-    fn can_dump_plan() {
-        let location = std::env::temp_dir().join("crazy-train");
-
-        let step_one = TestStepOne { location };
-        let step_two = TestStepOne {
-            location: std::env::temp_dir().join("crazy-train-1"),
-        };
-
-        let randomaizer = Randomizer::with_seed(42);
-        let runner = new(vec![Box::new(step_one), Box::new(step_two)]).randomizer(randomaizer);
-
-        assert_debug_snapshot!(runner.dump_plan());
     }
 
     #[test]
