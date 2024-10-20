@@ -3,6 +3,8 @@
 //! which encapsulates a command to be executed as part of a step.
 //!
 
+use std::collections::HashMap;
+
 use crate::{
     errors,
     executer::{self, Output},
@@ -63,6 +65,7 @@ pub trait StepTrait {
 pub struct Plan {
     pub id: String,
     pub command: String,
+    pub ctx: Option<HashMap<String, String>>,
 }
 
 impl Plan {
@@ -73,5 +76,23 @@ impl Plan {
     /// on shell command failure.
     pub fn execute(&self) -> errors::Result<executer::Output> {
         executer::run_sh(&self.command)
+    }
+
+    #[must_use]
+    pub fn new<T>(command: impl Into<String>) -> Self {
+        Self {
+            id: std::any::type_name::<T>().to_string(),
+            command: command.into(),
+            ctx: None,
+        }
+    }
+
+    #[must_use]
+    pub fn with_ctx<T>(command: impl Into<String>, ctx: HashMap<String, String>) -> Self {
+        Self {
+            id: std::any::type_name::<T>().to_string(),
+            command: command.into(),
+            ctx: Some(ctx),
+        }
     }
 }

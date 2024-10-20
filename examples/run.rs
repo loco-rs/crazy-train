@@ -10,10 +10,8 @@ struct StepOne {}
 impl StepTrait for StepOne {
     fn plan(&self, randomizer: &crazy_train::Randomizer) -> Result<crazy_train::step::Plan> {
         let eco_string = randomizer.string(StringDef::default()).to_string();
-        Ok(Plan {
-            id: std::any::type_name::<Self>().to_string(),
-            command: format!("echo {eco_string}"),
-        })
+
+        Ok(Plan::new::<Self>(format!("echo {eco_string}")))
     }
 
     fn is_success(
@@ -38,10 +36,8 @@ struct StepTwo {}
 impl StepTrait for StepTwo {
     fn plan(&self, randomizer: &crazy_train::Randomizer) -> Result<crazy_train::step::Plan> {
         let eco_string = randomizer.string(StringDef::default()).to_string();
-        Ok(Plan {
-            id: std::any::type_name::<Self>().to_string(),
-            command: format!("unknown-command {eco_string}"),
-        })
+
+        Ok(Plan::new::<Self>(format!("unknown-command {eco_string}")))
     }
 
     fn is_success(

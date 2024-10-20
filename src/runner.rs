@@ -156,7 +156,7 @@ impl Runner {
 #[cfg(test)]
 mod tests {
 
-    use std::path::PathBuf;
+    use std::{collections::HashMap, path::PathBuf};
 
     use serde::{Deserialize, Serialize};
 
@@ -186,6 +186,7 @@ mod tests {
                     "echo {eco_string} >> {}",
                     self.location.join("test.txt").display()
                 ),
+                ctx: Some(HashMap::from([("foo".to_string(), "bar".to_string())])),
             })
         }
 
@@ -229,6 +230,7 @@ mod tests {
                     "cat {eco_string} >> {}",
                     self.location.join("test.txt").display()
                 ),
+                ctx: Some(HashMap::from([("foo".to_string(), "bar".to_string())])),
             })
         }
 
