@@ -103,11 +103,13 @@ impl Runner {
                 "{}",
                 format!("Execute plan finished in {:?}", start.elapsed()).yellow()
             );
-            let is_success = step.is_success(&result).map_err(|err| Error::StepError {
-                kind: step::Kind::Plan,
-                description: err.to_string(),
-                command_output: result,
-            })?;
+            let is_success =
+                step.is_success(&result, &step_plan.ctx)
+                    .map_err(|err| Error::StepError {
+                        kind: step::Kind::Plan,
+                        description: err.to_string(),
+                        command_output: result,
+                    })?;
 
             if !is_success {
                 continue;
@@ -156,9 +158,10 @@ impl Runner {
 #[cfg(test)]
 mod tests {
 
-    use std::path::PathBuf;
+    use std::{collections::HashMap, path::PathBuf};
 
     use serde::{Deserialize, Serialize};
+    use step::PlanCtx;
 
     use super::*;
     use crate::{executer::Output, generator::StringDef, step::Plan};
@@ -180,16 +183,28 @@ mod tests {
 
         fn plan(&self, randomizer: &Randomizer) -> Result<Plan> {
             let eco_string = randomizer.string(StringDef::default()).to_string();
-            Ok(Plan {
-                id: std::any::type_name::<Self>().to_string(),
-                command: format!(
+            Ok(Plan::with_vars::<Self>(
+                format!(
                     "echo {eco_string} >> {}",
                     self.location.join("test.txt").display()
                 ),
-            })
+                HashMap::from([("foo".to_string(), "bar".to_string())]),
+            ))
         }
 
-        fn is_success(&self, execution_result: &Output) -> Result<bool, &'static str> {
+        fn is_success(
+            &self,
+            execution_result: &Output,
+            plan_ctx: &PlanCtx,
+        ) -> Result<bool, &'static str> {
+            if let Some(foo_var) = plan_ctx.vars.get("foo") {
+                if foo_var != "bar" {
+                    return Err("foo value should be equal to var");
+                }
+            } else {
+                return Err("foo plan ctx var not found");
+            };
+
             if execution_result.status_code == Some(0) {
                 Ok(true)
             } else {
@@ -223,16 +238,20 @@ mod tests {
 
         fn plan(&self, randomizer: &Randomizer) -> Result<Plan> {
             let eco_string = randomizer.string(StringDef::default()).to_string();
-            Ok(Plan {
-                id: std::any::type_name::<Self>().to_string(),
-                command: format!(
+            Ok(Plan::with_vars::<Self>(
+                format!(
                     "cat {eco_string} >> {}",
                     self.location.join("test.txt").display()
                 ),
-            })
+                HashMap::from([("foo".to_string(), "bar".to_string())]),
+            ))
         }
 
-        fn is_success(&self, execution_result: &Output) -> Result<bool, &'static str> {
+        fn is_success(
+            &self,
+            execution_result: &Output,
+            _plan_ctx: &PlanCtx,
+        ) -> Result<bool, &'static str> {
             if execution_result.status_code == Some(1) {
                 Ok(true)
             } else {
