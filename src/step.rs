@@ -44,7 +44,11 @@ pub trait StepTrait {
     ///
     /// # Errors
     /// When plan result parsing is not the expected behavior.
-    fn is_success(&self, execution_result: &Output) -> Result<bool, &'static str>;
+    fn is_success(
+        &self,
+        execution_result: &Output,
+        plan_ctx: &PlanCtx,
+    ) -> Result<bool, &'static str>;
 
     /// Optionally returns a command to run as a check after the execution of the plan.
     fn run_check(&self) -> Option<String> {
@@ -65,7 +69,12 @@ pub trait StepTrait {
 pub struct Plan {
     pub id: String,
     pub command: String,
-    pub ctx: Option<HashMap<String, String>>,
+    pub ctx: PlanCtx,
+}
+
+#[derive(Default, Debug, Clone)]
+pub struct PlanCtx {
+    pub vars: HashMap<String, String>,
 }
 
 impl Plan {
@@ -83,16 +92,16 @@ impl Plan {
         Self {
             id: std::any::type_name::<T>().to_string(),
             command: command.into(),
-            ctx: None,
+            ctx: PlanCtx::default(),
         }
     }
 
     #[must_use]
-    pub fn with_ctx<T>(command: impl Into<String>, ctx: HashMap<String, String>) -> Self {
+    pub fn with_vars<T>(command: impl Into<String>, vars: HashMap<String, String>) -> Self {
         Self {
             id: std::any::type_name::<T>().to_string(),
             command: command.into(),
-            ctx: Some(ctx),
+            ctx: PlanCtx { vars },
         }
     }
 }

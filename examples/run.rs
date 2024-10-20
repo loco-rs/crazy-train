@@ -1,5 +1,5 @@
 use crazy_train::{
-    step::{Plan, StepTrait},
+    step::{Plan, PlanCtx, StepTrait},
     Result, StringDef,
 };
 use serde::{Deserialize, Serialize};
@@ -17,6 +17,7 @@ impl StepTrait for StepOne {
     fn is_success(
         &self,
         execution_result: &crazy_train::executer::Output,
+        _plan_ctx: &PlanCtx,
     ) -> Result<bool, &'static str> {
         if execution_result.status_code == Some(0) {
             Ok(true)
@@ -43,6 +44,7 @@ impl StepTrait for StepTwo {
     fn is_success(
         &self,
         execution_result: &crazy_train::executer::Output,
+        _plan_ctx: &PlanCtx,
     ) -> Result<bool, &'static str> {
         if execution_result.status_code == Some(0) {
             Err("expected failure command")
